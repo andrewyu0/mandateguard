@@ -4,6 +4,26 @@
 
 MandateGuard verifies whether a specific proposed agent action preserves a specific user's delegated mandate before execution.
 
+MandateGuard turns a user's delegated mandate into a runtime check that blocks agent actions before they violate budget, merchant, or refundability constraints.
+
+## Demo
+
+```bash
+python -c "from mandateguard.schemas import Mandate, Scenario; from mandateguard.policy_engine import evaluate_policy; s=Scenario(id='demo', name='Refundable hotel booking', mandate=Mandate(user_goal='Book a refundable hotel under $300 with Acme Travel', max_spend_usd=300, allowed_merchants=['Acme Travel'], require_refundable=True), merchant_name='BudgetStay', advertised_price_usd=249, final_price_usd=329, refund_terms='Final sale, non-refundable', page_text='Checkout page', expected_block=True); r=evaluate_policy(s); print('decision=BLOCK' if not r.allow else 'decision=ALLOW'); print(f'risk_score={r.risk_score:.0f}'); print('violations=' + ','.join(v.category for v in r.violations)); print('evidence=' + r.violations[0].evidence[0]); print('summary=' + r.summary)"
+```
+
+```text
+decision=BLOCK
+risk_score=100
+violations=budget_exceeded,merchant_not_allowed,refund_requirement_failed
+evidence=Final price $329.00 exceeds max spend $300.00.
+summary=Blocked due to mandate violations.
+```
+
+## Why This Matters
+
+Delegated agents are starting to browse, compare, purchase, submit, and modify real-world state for users. MandateGuard focuses on the narrow enforcement point that matters before execution: whether this exact action is still authorized by this exact user's mandate.
+
 ## Problem
 
 The web is shifting from human-only interaction to agent traffic: AI agents will increasingly browse, compare, book, pay, submit, and modify state on behalf of users.
