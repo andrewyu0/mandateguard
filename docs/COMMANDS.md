@@ -1,4 +1,3 @@
-cat > docs/COMMANDS.md <<'EOF'
 # Commands
 
 Project operating commands for MandateGuard / AgentEvalSim.
@@ -12,6 +11,7 @@ Rehydrate project state.
 Use when restarting work.
 
 Output should include:
+
 - current repo state
 - active branch
 - current phase
@@ -27,6 +27,7 @@ Create a session-close checkpoint.
 Use when ending a work block.
 
 Output should include:
+
 - current state
 - completed work
 - commits / pushed changes
@@ -41,6 +42,7 @@ Check execution tempo.
 Use when deciding whether to speed up, pause, narrow scope, or change task.
 
 Output should include:
+
 - time pressure
 - current velocity
 - risk of drift
@@ -54,6 +56,7 @@ Create a durable engineering log entry.
 Use only for decisions worth preserving.
 
 Entry should include:
+
 - timestamp
 - type
 - title
@@ -77,6 +80,7 @@ Legacy compact plaintext format.
 Use only when screenshot/mobile capture matters.
 
 Default now:
+
 - concise normal prose
 - durable repo docs
 - searchable Project Sources
@@ -85,15 +89,18 @@ Default now:
 ## Current operating model
 
 ChatGPT:
+
 - strategic planning
 - task routing
 - scope control
 
 Codex CLI:
+
 - bounded edits
 - implementation assistance
 
 Human:
+
 - review
 - test
 - stage
@@ -101,9 +108,9 @@ Human:
 - push
 
 Git:
+
 - durable operational memory
 
 Repo docs:
-- canonical source of truth
-EOF
 
+- canonical source of truth
