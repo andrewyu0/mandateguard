@@ -276,3 +276,85 @@ Do not run blind destructive commands. Avoid commands that delete, reset, overwr
 Codex does not run git commands unless asked. Status, diff, add, commit, branch, reset, checkout, pull, push, and related commands require an explicit request.
 
 Stop after the requested edit. After completing the bounded task, Codex summarizes changed files and waits for the next instruction.
+
+---
+
+# Heredoc / Terminal-Native Artifact Flow
+
+A major workflow realization was distinguishing between:
+
+- interactive editors
+- shell-driven file generation
+
+Example:
+
+```bash
+cat > pitch_cheatcard.html <<'EOF'
+...content...
+EOF
+open pitch_cheatcard.html
+```
+
+This is not an editor.
+
+No IDE/nano/vim process is launched.
+
+Instead:
+
+1. shell enters heredoc input mode
+2. terminal captures multiline stdin
+3. `cat` streams text directly into a file
+4. `EOF` terminates the stream
+5. shell returns to command mode
+6. browser/editor renders the artifact
+
+Conceptually:
+
+```text
+stdin -> file
+```
+
+not:
+
+```text
+editor -> save file
+```
+
+Key realization:
+AI-generated content pairs extremely well with heredoc workflows because the content already exists as a complete blob.
+
+This enables an extremely low-friction loop:
+
+```text
+LLM output
+  ->
+terminal
+  ->
+artifact
+  ->
+browser/render
+```
+
+Benefits:
+- zero IDE/context switching
+- terminal-native
+- composable
+- automation-friendly
+- fast artifact generation
+- works naturally with AI tooling
+
+Important distinction:
+heredocs do not replace editors.
+
+Use:
+- heredoc for generated/pasted blobs
+- nano/vim for manual editing
+- IDEs for larger iterative coding tasks
+
+This reflects a broader Unix mental model:
+- shells orchestrate processes
+- programs consume streams
+- files are text sinks/sources
+- process boundaries are explicit
+
+This became an important part of the terminal-native / AI-native engineering workflow.
