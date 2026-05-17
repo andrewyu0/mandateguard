@@ -20,6 +20,34 @@ evidence=Final price $329.00 exceeds max spend $300.00.
 summary=Blocked due to mandate violations.
 ```
 
+## Simulation Environment
+
+MandateGuard also exposes a lightweight Gymnasium-style
+simulation/eval environment for mandate fidelity testing.
+
+- observation = scenario + mandate
+- action = candidate agent trace
+- reward = +1 pass / -1 violation
+- terminated = after one evaluation
+- verdict returned in info
+
+Run:
+
+```bash
+python demo.py
+```
+
+Example:
+
+```text
+=== GOOD TRACE ===
+reward: 1
+
+=== BAD TRACE ===
+reward: -1
+violation: budget_exceeded
+```
+
 ## Why This Matters
 
 Delegated agents are starting to browse, compare, purchase, submit, and modify real-world state for users. MandateGuard focuses on the narrow enforcement point that matters before execution: whether this exact action is still authorized by this exact user's mandate.
@@ -87,3 +115,5 @@ mandateguard/
   runner.py           # eval runner
   llm_judge.py        # optional semantic evaluator
   metrics.py          # false allow/block, violation recall
+```
+
